@@ -1,10 +1,11 @@
 let lastCache = 'restaurant-app-v1';
-// install sw
+// install service worker
 self.addEventListener('install', event => {
+  //working 
     console.log('Installing service worker');
+
   // wait until promise is finished.
  event.waitUntil(
-    // handle caching all assets
     caches.open(lastCache).then(cache => {
         console.log('Service Worker: caching');
       return cache.addAll([
@@ -32,11 +33,12 @@ self.addEventListener('install', event => {
   );
 });
 
-// activate sw to clean up old cache
+// activate s w to clean up old cache
 self.addEventListener('activate', event => {
   console.log('Service Working: clearing old cache');
   event.waitUntil(
     // loop through currenr cache
+    //all cache
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.filter(cacheName => {
@@ -53,10 +55,15 @@ self.addEventListener('activate', event => {
 // call fetch event and respond to cache
 self.addEventListener('fetch', event => {
   console.log('Service Worker: fetching...');
-   // check if live site is available, if not, fetch
+
+   // check if live site is available
+   //fetch if not live
     event.respondWith(
       caches.match(event.request).then(response => {
         return response || fetch(event.request);
     })
   );
 });
+
+
+//Referenced from Youtube video crash course

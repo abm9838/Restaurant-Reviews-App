@@ -4,4 +4,7 @@ if ('serviceWorker' in navigator) {
       console.log('Service Worker: Error');
     });
 }
+
+
+//based on online help
     
