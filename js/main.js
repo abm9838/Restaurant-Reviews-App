@@ -3,12 +3,11 @@ let restaurants,
   cuisines
 var newMap
 var markers = []
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added 
+  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -34,6 +33,13 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
+    // add accessibility
+    const aria_att = document.createAttribute('role');
+    const tabindex = document.createAttribute('tabindex');
+    aria_att.value = 'menuitem';
+    tabindex.value = '0';
+    option.setAttributeNode(aria_att);
+    option.setAttributeNode(tabindex);
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -73,12 +79,12 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 initMap = () => {
   self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
+        center: [26.2854824, 82.0748843],
         zoom: 12,
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1IjoiYWJtOTgzOCIsImEiOiJjanBiaTI0cHMyNW90M3FvMzd1cnRtMDVhIn0.TGqkFVmCqXoxyBU2otAWxw',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -161,11 +167,21 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  /* add responsive image properties
+  var srcset = document.createAttribute("srcset");
+  srcset.value = "";
+  */
+
   li.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
   li.append(name);
+  // add accessibility to names for screen reader
+  const tabindex = document.createAttribute('tabindex');
+  tabindex.value = '0';
+  name.setAttributeNode(tabindex);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -197,7 +213,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 
-} 
+}
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -208,4 +224,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-
