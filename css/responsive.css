@@ -9,6 +9,7 @@
     transition: all 1s;
   }
 }
+
 /* Tablets and screens max-width 1000px */
 @media screen and (min-width: 415px) and (max-width: 1000px) {
   .content-grid {

@@ -2,12 +2,12 @@ let lastCache = 'restaurant-app-v1';
 // install service worker
 self.addEventListener('install', event => {
   //working 
-    console.log('Installing service worker');
+  console.log('Installing service worker');
 
   // wait until promise is finished.
- event.waitUntil(
+  event.waitUntil(
     caches.open(lastCache).then(cache => {
-        console.log('Service Worker: caching');
+      console.log('Service Worker: caching');
       return cache.addAll([
         '/',
         '/index.html',
@@ -28,7 +28,7 @@ self.addEventListener('install', event => {
         '/img/8.jpg',
         '/img/9.jpg',
         '/img/10.jpg'
-        ])
+      ])
     })
   );
 });
@@ -56,11 +56,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   console.log('Service Worker: fetching...');
 
-   // check if live site is available
-   //fetch if not live
-    event.respondWith(
-      caches.match(event.request).then(response => {
-        return response || fetch(event.request);
+  // check if live site is available
+  //fetch if not live
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
     })
   );
 });
